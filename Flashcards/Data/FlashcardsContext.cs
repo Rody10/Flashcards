@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flashcards.Models;
 
 
-namespace Flashcards
+namespace Flashcards.Data
 {
     internal class FlashcardsContext : DbContext
     {

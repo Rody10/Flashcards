@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Flashcards
+namespace Flashcards.Models
 {
     internal class Stack
     {
@@ -13,7 +13,7 @@ namespace Flashcards
         [StringLength(50)]
         public string StackName { get; set; }
         public ICollection<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
-        
+
         public Stack(string stackName)
         {
             StackName = stackName;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Flashcards.Models;
 
 namespace Flashcards
 {
@@ -20,6 +21,7 @@ namespace Flashcards
 
         public Flashcard(string front, string back)
         {
+
             Front = front;
             Back = back;
 

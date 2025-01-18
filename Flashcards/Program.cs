@@ -1,15 +1,7 @@
-﻿using Flashcards;
+﻿using Flashcards.UserInterface;
 
-// start working on user input and interactivity
-
-Console.WriteLine("----------------------------");
-Console.WriteLine("Flashcards Application Menu");
-Console.WriteLine("----------------------------");
-Console.WriteLine("");
-Console.WriteLine("1. Manage Flashcard Stacks");
-Console.WriteLine("2. Study Session");
-Console.WriteLine("3. Study Session Data");
-Console.WriteLine("0. Exit");
+MainMenu.DisplayTitle();
+MainMenu.DisplayMainMenuOptions();
 
 /*
 using (var context = new FlashcardsContext())
@@ -30,6 +22,28 @@ using (var context = new FlashcardsContext())
         stack.Flashcards.Add(flashcard3);
     }
     context.SaveChanges();
+}
+-------------------------------
+
+
+Console.WriteLine("----------------------------");
+Console.WriteLine("Flashcards Application Menu");
+Console.WriteLine("----------------------------");
+Console.WriteLine("");
+
+bool terminateApp = false;
+
+while (!terminateApp)
+{
+    string? userChoice = "";
+
+    Console.WriteLine("1. Manage Flashcard Stacks");
+    Console.WriteLine("2. Study Session");
+    Console.WriteLine("3. Study Session Data");
+    Console.WriteLine("0. Exit");
+
+    userChoice = Console.ReadLine();
+
 }
 */
 
