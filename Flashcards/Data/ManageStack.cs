@@ -17,5 +17,15 @@ namespace Flashcards.Data
             }  
         }
 
+        public static List<Flashcard> GetListOfFlashcards(int stackId, int numberOfRecords)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var flashcardsList = context.Flashcards.Where(x => x.StackId == stackId).Take(numberOfRecords).ToList();
+                return flashcardsList;
+            }
+        }
+
+
     }
 }

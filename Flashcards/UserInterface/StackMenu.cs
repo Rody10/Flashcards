@@ -11,7 +11,6 @@ namespace Flashcards.UserInterface
     {
        public static void DisplayStackMenu(int stackId)
        {
-            string? userChoice = "";
 
             Console.WriteLine("");
             Console.WriteLine("----------------------------");
@@ -27,19 +26,27 @@ namespace Flashcards.UserInterface
             Console.WriteLine("4. Create a flashcard");
             Console.WriteLine("5. Delete a flashcard");
             Console.WriteLine("0. Return to the stacks menu");
+            Console.WriteLine("");
+            Console.WriteLine("Choose the operation you want to perform: ");
 
-            switch(userChoice)
-                {
+            string? userChoice = Console.ReadLine();
+
+            switch (userChoice)
+            {
                     case "1":
                     var flashcardsList = ManageStack.GetListOfFlashcards(stackId);
                     foreach(Flashcard flashcard in flashcardsList)
                     {
-                        Console.WriteLine($"{flashcard.FlashcardId} {flashcard.Front} {flashcard.Back}");
+                        Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
                     }
-                    //;
                     break;
                 case "2":
-                    //;
+                    int numberOfRows = GetNumberOfRowsToReturn();
+                    var xFlashcardsList = ManageStack.GetListOfFlashcards(stackId, numberOfRows);
+                    foreach (Flashcard flashcard in xFlashcardsList)
+                    {
+                        Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
+                    }
                     break;
                 case "3":
                     //;
@@ -59,7 +66,22 @@ namespace Flashcards.UserInterface
                     Console.WriteLine("");
                     break;
                 }
-
             }
-    }
+     
+        private static int GetNumberOfRowsToReturn()
+        {
+            Console.Write("How many cards do you want? ");
+            string? userinput = Console.ReadLine();
+            int userInputAsInt;
+            if(int.TryParse(userinput, out userInputAsInt))
+            {
+                return userInputAsInt;
+            }
+            else
+            {
+                Console.WriteLine("You entered invalid input. Please try again.");
+            }
+            return 1; // fix
+        }
+    }   
 }

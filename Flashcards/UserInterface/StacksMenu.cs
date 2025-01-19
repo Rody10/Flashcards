@@ -36,22 +36,21 @@ namespace Flashcards.UserInterface
                 "You can also choose to create or delete a stack." +
                 " Enter 0 to go back to the main menu.");
 
-            // not working properly - fix *****************
-
             string? userChoice = Console.ReadLine();
             if (userChoice == "c")
             {
                 // create a stack
+                Console.WriteLine("you pressed c!");
             }
             else if (userChoice == "d")
             {
                 // delete a stack
+                Console.WriteLine("you pressed d!");
             }
             // this means a user entered a stack id otherwise show error
             else
             {
-                int userChoiceAsInteger = 0;
-                if (!int.TryParse(userChoice, out userChoiceAsInteger))
+                if (!int.TryParse(userChoice, out int userChoiceAsInteger))
                 {
                     Console.WriteLine("You entered invalid input. Please try again");
                 }
