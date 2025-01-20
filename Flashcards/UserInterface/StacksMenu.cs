@@ -20,12 +20,9 @@ namespace Flashcards.UserInterface
             Console.WriteLine("");
 
             var stacksList = ManageStacks.GetListOfStacks();
-            List<int> validStackIds = new List<int>(); // list containing ids of stacks that currently exist
-
             // get all the stacks and print the id and stack name 
             foreach (Stack stack in stacksList)
             {
-                validStackIds.Add(stack.StackId);
                 Console.WriteLine($"{stack.StackId}.{stack.StackName}");
             }
             Console.WriteLine("c.Create a Stack");
@@ -56,7 +53,7 @@ namespace Flashcards.UserInterface
                 }
                 else // user input successfully converted to int. Now check if it is a valid stack id
                 {
-                    if (!validStackIds.Contains(userChoiceAsInteger))
+                    if (!HelperMenuMethods.CheckIfIdIsValid(stacksList, userChoiceAsInteger))
                     {
                         Console.WriteLine("You entered invalid input. Please try again");
                     }
@@ -65,10 +62,7 @@ namespace Flashcards.UserInterface
                         StackMenu.DisplayStackMenu(userChoiceAsInteger);
                     }
                 }
-
-            }
-           
-
+            }      
         }
     }
 }

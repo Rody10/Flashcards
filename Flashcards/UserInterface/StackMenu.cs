@@ -49,7 +49,8 @@ namespace Flashcards.UserInterface
                     }
                     break;
                 case "3":
-                    //;
+                    var flashcardsListForEditing = ManageStack.GetListOfFlashcards(stackId);
+                    
                     break;
                 case "4":
                     //;
