@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,8 +28,7 @@ namespace Flashcards.Data
             }
         }
 
-        // Returns true if flashcard was successfully updated. Otherwise returns false.
-        public static bool EditFlashcard(int flashcardId, string front, string back)
+        public static int EditFlashcard(int flashcardId, string front, string back)
         {
             using (var context = new FlashcardsContext())
             {
@@ -38,15 +38,33 @@ namespace Flashcards.Data
                 {
                     flashcard.Front = front;
                     flashcard.Back = back;
-                    return true;
-                }
-                
-                else
-                {
-                    return false;
-                }
+                }            
+                return context.SaveChanges();
+            }
+           
+        }
+        
+        public static int AddFlashcard(int stackId, string front, string back)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var newFlashcard = new Flashcard(stackId, front, back);
+                context.Flashcards.Add(newFlashcard);
+                return context.SaveChanges();
             }
         }
+
+        public static int DeleteFlashcard(int flashcardId)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var flashcard = new Flashcard { FlashcardId = flashcardId };
+                context.Flashcards.Attach(flashcard);
+                context.Flashcards.Remove(flashcard);
+                return context.SaveChanges();
+            }
+        }
+
 
 
     }

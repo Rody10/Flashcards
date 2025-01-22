@@ -13,18 +13,22 @@ namespace Flashcards
         public int FlashcardId { get; set; }
 
         public int StackId { get; set; }
-        public Stack Stack { get; set; }
+
         [StringLength(100)]
         public string Front { get; set; }
+
         [StringLength(100)]
         public string Back { get; set; }
 
-        public Flashcard(string front, string back)
+        public Flashcard(int stackId, string front, string back)
         {
-
+            StackId = stackId;
             Front = front;
             Back = back;
 
         } //Constructor
+        public Flashcard()
+        {
+        } //Proxy constructor to allow for delitions usinf stubs - ef core
     }
 }
