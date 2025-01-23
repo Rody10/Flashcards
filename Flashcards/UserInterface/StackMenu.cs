@@ -11,119 +11,129 @@ namespace Flashcards.UserInterface
     {
        public static void DisplayStackMenu(int stackId)
        {
-
+            bool goBackToStacksMenu = false;
+            string stackName = ManageStack.GetStackName(stackId);
             Console.WriteLine("");
             Console.WriteLine("----------------------------");
             Console.WriteLine("Manage Stack Menu");
             Console.WriteLine("----------------------------");
             Console.WriteLine("");
-            Console.WriteLine($"Current Working Stack: {stackId}"); // try to get stack name
-            Console.WriteLine("");
-
-            Console.WriteLine("1. View all flashcards in the stack");
-            Console.WriteLine("2. View X number of cards in the stack");
-            Console.WriteLine("3. Edit a flashcard");
-            Console.WriteLine("4. Create a flashcard");
-            Console.WriteLine("5. Delete a flashcard");
-            Console.WriteLine("0. Return to the stacks menu");
-            Console.WriteLine("");
-            Console.WriteLine("Choose the operation you want to perform: ");
-
-            string? userChoice = Console.ReadLine();
-
-            switch (userChoice)
+            while (!goBackToStacksMenu)
             {
+                Console.WriteLine("");
+                Console.WriteLine($"Current Working Stack: {stackName}");
+                Console.WriteLine("");
+
+                Console.WriteLine("1. View all flashcards in the stack");
+                Console.WriteLine("2. View X number of cards in the stack");
+                Console.WriteLine("3. Edit a flashcard");
+                Console.WriteLine("4. Create a flashcard");
+                Console.WriteLine("5. Delete a flashcard");
+                Console.WriteLine("0. Return to the stacks menu");
+                Console.WriteLine("");
+                Console.WriteLine("Choose the operation you want to perform: ");
+
+                string? userChoice = Console.ReadLine();
+
+                switch (userChoice)
+                {
                     case "1":
-                    var flashcardsList = ManageStack.GetListOfFlashcards(stackId);
-                    foreach(Flashcard flashcard in flashcardsList)
-                    {
-                        Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
-                    }
-                    break;
-                case "2":
-                    int numberOfRows = GetNumberOfRowsToReturn();
-                    var xFlashcardsList = ManageStack.GetListOfFlashcards(stackId, numberOfRows);
-                    foreach (Flashcard flashcard in xFlashcardsList)
-                    {
-                        Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
-                    }
-                    break;
-                case "3":
-                    var flashcardsListForEditing = ManageStack.GetListOfFlashcards(stackId);
-                    foreach (Flashcard flashcard in flashcardsListForEditing)
-                    {
-                        Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
-                    }
-                    Console.WriteLine("Enter the Id of the flashcard you want to edit:");
-                    string? idOfFlashcardToEdit = Console.ReadLine();
-                    if (!int.TryParse(idOfFlashcardToEdit, out int idOfFlashcardToEditAsInteger))
-                    {
-                        Console.WriteLine("The flashcard Id you entered is not an integer!");
-                    }
-                    else // user input successfully converted to int. Now check if it is a valid flashcard id
-                    {
-                        if (!HelperMenuMethods.CheckIfIdIsValid(flashcardsListForEditing, idOfFlashcardToEditAsInteger))
+                        var flashcardsList = ManageStack.GetListOfFlashcards(stackId);
+                        foreach (Flashcard flashcard in flashcardsList)
                         {
-                            Console.WriteLine("The flashcard Id you entered does not exist!");
+                            Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
                         }
-                        else // user entered valid flashcard id
+                        break;
+                    case "2":
+                        int numberOfRows = GetNumberOfRowsToReturn();
+                        var xFlashcardsList = ManageStack.GetListOfFlashcards(stackId, numberOfRows);
+                        foreach (Flashcard flashcard in xFlashcardsList)
                         {
-                            string newTextFront = GetFlashcardSideValue("front");
-                            string newTextBack = GetFlashcardSideValue("back"); ;
-                            int succeededInEditingFlashcard = ManageStack.EditFlashcard(idOfFlashcardToEditAsInteger, newTextFront, newTextBack);
-                            if (succeededInEditingFlashcard > 0)
+                            Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
+                        }
+                        break;
+                    case "3":
+                        var flashcardsListForEditing = ManageStack.GetListOfFlashcards(stackId);
+                        foreach (Flashcard flashcard in flashcardsListForEditing)
+                        {
+                            Console.WriteLine($"Flashcard Id:{flashcard.FlashcardId}    Front:{flashcard.Front}    Back:{flashcard.Back}");
+                        }
+                        Console.WriteLine("Enter the Id of the flashcard you want to edit:");
+                        string? idOfFlashcardToEdit = Console.ReadLine();
+                        if (!int.TryParse(idOfFlashcardToEdit, out int idOfFlashcardToEditAsInteger))
+                        {
+                            Console.WriteLine("The flashcard Id you entered is not an integer!");
+                        }
+                        else // user input successfully converted to int. Now check if it is a valid flashcard id
+                        {
+                            if (!HelperMenuMethods.CheckIfIdIsValid(flashcardsListForEditing, idOfFlashcardToEditAsInteger))
                             {
-                                Console.WriteLine("Successfully edited the flashcard!");
+                                Console.WriteLine("The flashcard Id you entered does not exist!");
                             }
-                            else
+                            else // user entered valid flashcard id
                             {
-                                Console.WriteLine("Could not edit the flascard!");
+                                string newTextFront = GetFlashcardSideValue("front");
+                                string newTextBack = GetFlashcardSideValue("back"); ;
+                                int succeededInEditingFlashcard = ManageStack.EditFlashcard(idOfFlashcardToEditAsInteger, newTextFront, newTextBack);
+                                if (succeededInEditingFlashcard > 0)
+                                {
+                                    Console.WriteLine("Successfully edited the flashcard!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Could not edit the flascard!");
+                                }
                             }
                         }
-                    }                  
-                    break;
-                case "4":
-                    string textFront = GetFlashcardSideValue("front");
-                    string textBack = GetFlashcardSideValue("back");
-                    int succeededInAddingFlashcard = ManageStack.AddFlashcard(stackId, textFront, textBack);
-                    if (succeededInAddingFlashcard > 0)
-                    {
-                        Console.WriteLine("Succesfully added the new flashcard!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Could not add the flashcard!");
-                    }
-                    //;
-                    break;
-                case "5":
-                    //;
-                    break;
-                case "6":
-                    //;
-                    break;
-                default:
-                    Console.WriteLine("");
-                    Console.WriteLine("You entered invalid input. Please try again");
-                    Console.WriteLine("");
-                    break;
+                        break;
+                    case "4":
+                        string textFront = GetFlashcardSideValue("front");
+                        string textBack = GetFlashcardSideValue("back");
+                        int succeededInAddingFlashcard = ManageStack.AddFlashcard(stackId, textFront, textBack);
+                        if (succeededInAddingFlashcard > 0)
+                        {
+                            Console.WriteLine("Succesfully added the new flashcard!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Could not add the flashcard!");
+                        }
+                        break;
+                    case "5":
+                        int flashcardIdToDelete = GetIDOfFlashcardToDelete();
+                        int succeededInDeletingFlashcard = ManageStack.DeleteFlashcard(flashcardIdToDelete);
+                        if (succeededInDeletingFlashcard > 0)
+                        {
+                            Console.WriteLine("Succesfully deleted the flashcard!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Could not delete the flashcard!");
+                        }
+                        break;
+                    case "0":
+                        goBackToStacksMenu = true;
+                        break;
+                    default:
+                        Console.WriteLine("");
+                        Console.WriteLine("You entered invalid input. Please try again");
+                        Console.WriteLine("");
+                        break;
                 }
             }
+        }
+           
      
         private static int GetNumberOfRowsToReturn()
         {
             Console.Write("How many cards do you want? ");
             string? userinput = Console.ReadLine();
             int userInputAsInt;
-            if(int.TryParse(userinput, out userInputAsInt))
+            while(!int.TryParse(userinput, out userInputAsInt))
             {
-                return userInputAsInt;
+                Console.WriteLine("You should enter an integer. Please try again:");
             }
-            else
-            {
-                Console.WriteLine("You entered invalid input. Please try again.");
-            }
-            return 1; // fix
+            return userInputAsInt;
         }
 
         private static string GetFlashcardSideValue(string side)
@@ -136,6 +146,18 @@ namespace Flashcards.UserInterface
                 textForTheSide = "";
             }
             return textForTheSide;
+        }
+
+        private static int GetIDOfFlashcardToDelete()
+        {
+            Console.Write("What is the ID of the flashcard you want to delete?");
+            string? flashcardIdToDelete = Console.ReadLine();
+            int flashcardIdToDeleteAsInt;
+            while (!int.TryParse(flashcardIdToDelete, out flashcardIdToDeleteAsInt))
+            {
+                Console.WriteLine("You should enter an integer. Please try again:");
+            }
+            return flashcardIdToDeleteAsInt;
         }
     }   
 }

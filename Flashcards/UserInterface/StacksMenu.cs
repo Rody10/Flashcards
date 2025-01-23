@@ -13,56 +13,76 @@ namespace Flashcards.UserInterface
     {
         public static void DisplayManageStacksMenu()
         {
+            bool goBackToMainMenu = false;
             Console.WriteLine("");
             Console.WriteLine("----------------------------");
             Console.WriteLine("Manage Stacks Menu");
             Console.WriteLine("----------------------------");
             Console.WriteLine("");
-
-            var stacksList = ManageStacks.GetListOfStacks();
-            // get all the stacks and print the id and stack name 
-            foreach (Stack stack in stacksList)
+            while (!goBackToMainMenu)
             {
-                Console.WriteLine($"{stack.StackId}.{stack.StackName}");
-            }
-            Console.WriteLine("c.Create a Stack");
-            Console.WriteLine("d.Delete a Stack");
-            Console.WriteLine("0.Main Menu");
-            Console.WriteLine("");
-            Console.WriteLine("Choose a stack of flashcards to interact with. " +
-                "You can also choose to create or delete a stack." +
-                " Enter 0 to go back to the main menu.");
-
-            string? userChoice = Console.ReadLine();
-            if (userChoice == "c")
-            {
-                // create a stack
-                Console.WriteLine("you pressed c!");
-            }
-            else if (userChoice == "d")
-            {
-                // delete a stack
-                Console.WriteLine("you pressed d!");
-            }
-            // this means a user entered a stack id otherwise show error
-            else
-            {
-                if (!int.TryParse(userChoice, out int userChoiceAsInteger))
+                var stacksList = ManageStacks.GetListOfStacks();
+                // get all the stacks and print the id and stack name 
+                foreach (Stack stack in stacksList)
                 {
-                    Console.WriteLine("You entered invalid input. Please try again");
+                    Console.WriteLine($"{stack.StackId}.{stack.StackName}");
                 }
-                else // user input successfully converted to int. Now check if it is a valid stack id
+                Console.WriteLine("c.Create a Stack");
+                Console.WriteLine("d.Delete a Stack");
+                Console.WriteLine("e.Edit the name of a stack");
+                Console.WriteLine("0.Main Menu");
+                Console.WriteLine("");
+                Console.WriteLine("Choose a stack of flashcards to interact with.");
+                Console.WriteLine("You can also choose to create or delete a stack.");
+
+                string? userChoice = Console.ReadLine();
+                if (userChoice == "c")
                 {
-                    if (!HelperMenuMethods.CheckIfIdIsValid(stacksList, userChoiceAsInteger))
+                    string nameOfStack = "";
+                    Console.WriteLine("Enter the name of the stack you want to create");
+                    nameOfStack = Console.ReadLine();
+                    int addingOfStackWasSuccesful = ManageStacks.CreateStack(nameOfStack);
+                    if (addingOfStackWasSuccesful>0)
+                    {
+                        Console.WriteLine("The stack was successfully added!");
+                    }         
+                }
+                else if (userChoice == "d")
+                {
+                    // delete a stack
+                    Console.WriteLine("you pressed d!");
+                }
+                else if (userChoice == "e")
+                {
+                    // delete a stack
+                    Console.WriteLine("you pressed e!");
+                }
+                else if (userChoice == "0")
+                {
+                    MainMenu.DisplayTitle();
+                    MainMenu.DisplayMainMenuOptions();
+                }
+                // this means a user entered a stack id otherwise show error
+                else
+                {
+                    if (!int.TryParse(userChoice, out int userChoiceAsInteger))
                     {
                         Console.WriteLine("You entered invalid input. Please try again");
                     }
-                    else // user entered valid stack id
+                    else // user input successfully converted to int. Now check if it is a valid stack id
                     {
-                        StackMenu.DisplayStackMenu(userChoiceAsInteger);
+                        if (!HelperMenuMethods.CheckIfIdIsValid(stacksList, userChoiceAsInteger))
+                        {
+                            Console.WriteLine("You entered invalid input. Please try again");
+                        }
+                        else // user entered valid stack id
+                        {
+                            StackMenu.DisplayStackMenu(userChoiceAsInteger);
+                        }
                     }
                 }
-            }      
+            }
         }
     }
+            
 }

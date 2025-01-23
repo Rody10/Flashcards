@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Flashcards.Data
 {
@@ -62,6 +63,19 @@ namespace Flashcards.Data
                 context.Flashcards.Attach(flashcard);
                 context.Flashcards.Remove(flashcard);
                 return context.SaveChanges();
+            }
+        }
+
+        public static string GetStackName(int stackId)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var stack = context.Stacks.FirstOrDefault(x => x.StackId == stackId);
+                if (stack != null)
+                {
+                    return stack.StackName;
+                }
+                return "Stack name not found!";
             }
         }
 
