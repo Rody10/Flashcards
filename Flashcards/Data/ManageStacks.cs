@@ -32,5 +32,30 @@ namespace Flashcards.Data
                 return context.SaveChanges();
             }
         }
+        public static int DeleteStack(int stackId)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var stack = new Models.Stack { StackId = stackId };
+                context.Stacks.Attach(stack);
+                context.Stacks.Remove(stack);
+                return context.SaveChanges();
+            }
+        }
+
+        public static int EditStack(int stackId, string name)
+        {
+            using (var context = new FlashcardsContext())
+            {
+                var stack = context.Stacks.FirstOrDefault(x => x.StackId == stackId);
+
+                if (stack != null)
+                {
+                    stack.StackName = name;
+                }
+                return context.SaveChanges();
+            }
+
+        }
     }
 }

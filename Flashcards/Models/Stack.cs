@@ -18,6 +18,10 @@ namespace Flashcards.Models
         {
             StackName = stackName;
 
-        } // Consructor
+        } // Constructor
+
+        public Stack()
+        {
+        } //Proxy constructor to allow for delitions using stubs - ef core
     }
 }

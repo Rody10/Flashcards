@@ -29,6 +29,6 @@ namespace Flashcards
         } //Constructor
         public Flashcard()
         {
-        } //Proxy constructor to allow for delitions usinf stubs - ef core
+        } //Proxy constructor to allow for delitions using stubs - ef core
     }
 }
